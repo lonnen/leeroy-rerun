@@ -29,6 +29,11 @@ def _main():
         base_full_name = "%s/%s" % (org, repo)
         r = requests.get("https://api.github.com/repos/%s/pulls/%s" %
                          (base_full_name, pull_request_number))
+        if 'message' in r.json:
+            print 'Message from github: ' + r.json['message']
+        if r.headers['X-RateLimit-Remaining'] == '0':
+            print 'Rate limiting exceeded. Try again later.'
+            return
         head_full_name = r.json['head']['repo']['full_name']
         sha = r.json['head']['sha']
         blob = {
