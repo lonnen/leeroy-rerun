@@ -29,13 +29,14 @@ def _main():
         base_full_name = "%s/%s" % (org, repo)
         r = requests.get("https://api.github.com/repos/%s/pulls/%s" %
                          (base_full_name, pull_request_number))
-        if 'message' in r.json:
-            print 'Message from github: ' + r.json['message']
+        response_json = r.json()
+        if 'message' in response_json:
+            print 'Message from github: ' + response_json['message']
         if r.headers['X-RateLimit-Remaining'] == '0':
             print 'Rate limiting exceeded. Try again later.'
             return
-        head_full_name = r.json['head']['repo']['full_name']
-        sha = r.json['head']['sha']
+        head_full_name = response_json['head']['repo']['full_name']
+        sha = response_json['head']['sha']
         blob = {
             "type": "SimulatedPullRequestEvent",
             "action": "synchronize",
