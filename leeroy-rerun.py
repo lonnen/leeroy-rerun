@@ -19,7 +19,7 @@ def _main():
         parser.error("what pull request needs rerunning?")
     if not options.leeroy_url:
         parser.error("where is leeroy?")
-    pr_url_re = re.compile(r'https?://github.com/(\w+)/(\w+)/pull/(\d+)')
+    pr_url_re = re.compile(r'https?://github.com/([\w-]+)/([\w-]+)/pull/(\d+)')
     for pr in args:
         groups = pr_url_re.match(pr).groups()
         if len(groups) != 3:
